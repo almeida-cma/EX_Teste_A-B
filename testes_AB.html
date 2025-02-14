@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Testing com Layouts Diferentes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .grid {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 40%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .grid h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .grid p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .grid button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .grid#gridA {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+
+        .grid#gridA h2 {
+            color: #e74c3c;
+        }
+
+        .grid#gridA button {
+            background-color: #e74c3c;
+            color: white;
+            width: 100%;
+        }
+
+        .grid#gridA button:hover {
+            background-color: #c0392b;
+        }
+
+        .grid#gridB {
+            background-color: #eaf2f8;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid#gridB h2 {
+            color: #2980b9;
+        }
+
+        .grid#gridB button {
+            background-color: #2980b9;
+            color: white;
+            width: 50%;
+        }
+
+        .grid#gridB button:hover {
+            background-color: #1c5980;
+        }
+
+        .counter {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .history {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .history h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .history p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Qual Layout Você Prefere?</h1>
+    <div class="container">
+        <!-- Grid A -->
+        <div class="grid" id="gridA">
+            <h2>Layout A</h2>
+            <p>Este layout tem um design alinhado à esquerda, com um botão grande e vermelho.</p>
+            <p>Ideal para quem busca algo direto e impactante.</p>
+            <button onclick="handleClick('A')">Escolher Layout A</button>
+            <div class="counter">Cliques: <span id="counterA">0</span></div>
+        </div>
+
+        <!-- Grid B -->
+        <div class="grid" id="gridB">
+            <h2>Layout B</h2>
+            <p>Este layout tem um design centralizado, com um botão médio e azul.</p>
+            <p>Perfeito para quem prefere algo equilibrado e tranquilo.</p>
+            <button onclick="handleClick('B')">Escolher Layout B</button>
+            <div class="counter">Cliques: <span id="counterB">0</span></div>
+        </div>
+    </div>
+
+    <!-- Histórico de Cliques -->
+    <div class="history">
+        <h3>Histórico de Cliques</h3>
+        <p>Total de cliques em <strong>Layout A</strong>: <span id="totalA">0</span></p>
+        <p>Total de cliques em <strong>Layout B</strong>: <span id="totalB">0</span></p>
+    </div>
+
+    <script>
+        // Função para obter o valor do localStorage
+        function getLocalStorage(key) {
+            return parseInt(localStorage.getItem(key)) || 0;
+        }
+
+        // Função para salvar o valor no localStorage
+        function setLocalStorage(key, value) {
+            localStorage.setItem(key, value);
+        }
+
+        // Função para atualizar os contadores na interface
+        function updateCounters() {
+            document.getElementById('counterA').textContent = getLocalStorage('clicksGridA');
+            document.getElementById('counterB').textContent = getLocalStorage('clicksGridB');
+            document.getElementById('totalA').textContent = getLocalStorage('clicksGridA');
+            document.getElementById('totalB').textContent = getLocalStorage('clicksGridB');
+        }
+
+        // Função para lidar com o clique no botão
+        function handleClick(grid) {
+            const key = `clicksGrid${grid}`;
+            const currentCount = getLocalStorage(key) + 1;
+            setLocalStorage(key, currentCount);
+            updateCounters();
+        }
+
+        // Inicializar os contadores ao carregar a página
+        window.onload = function() {
+            updateCounters();
+        };
+    </script>
+</body>
+</html>
